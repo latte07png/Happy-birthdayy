@@ -2,140 +2,182 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Happy Birthday Hyeriii</title>
+  <title>Songs That I Dedicate To You</title>
   <style>
     body {
-      font-family: 'Arial', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #ffb6c1, #ffe6f0, #a5c9ff);
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      transition: background 0.8s ease;
+    }
+
+    .container {
       text-align: center;
-      padding: 30px;
-      background-color: #fff0f5;
-      overflow: hidden;
-      position: relative;
+      width: 90%;
+      max-width: 700px;
     }
 
-    button {
-      margin: 5px;
-      padding: 10px 20px;
-      font-size: 16px;
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: #fff;
+      text-shadow: 1px 1px 5px rgba(0,0,0,0.2);
+    }
+
+    .question, .playlist {
+      display: none;
+    }
+
+    .question.active {
+      display: block;
+    }
+
+    .playlist.active {
+      display: block;
+    }
+
+    .choices button {
+      display: block;
+      width: 100%;
+      max-width: 400px;
+      margin: 10px auto;
+      padding: 15px;
+      font-size: 1.2rem;
       border: none;
-      border-radius: 8px;
-      background-color: #ffc0cb;
-      color: #333;
+      border-radius: 15px;
+      background: #fff;
+      color: #444;
+      font-weight: bold;
       cursor: pointer;
+      transition: transform 0.2s ease, background 0.3s ease;
     }
 
-    button:hover {
-      background-color: #ffb6c1;
+    .choices button:hover {
+      transform: scale(1.05);
+      background: #fce4ec;
     }
 
-    .message {
+    .playlist {
       margin-top: 20px;
-      font-size: 16px;
-      color: #555;
     }
 
-    .letter {
-      font-size: 22px;
-      margin-top: 30px;
-      color: #e91e63;
+    .song-card {
+      width: 350px;
+      height: 160px;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      transition: transform 0.5s ease;
+      padding: 20px;
+      margin: 0 auto;
     }
 
-    .heart {
-      position: absolute;
-      top: -20px;
-      font-size: 24px;
-      animation: fall linear infinite;
-      color: #ff69b4;
-      opacity: 0.8;
-      pointer-events: none;
+    .song-card h2 {
+      margin: 0;
+      font-size: 1.5rem;
+      color: #333;
     }
 
-    @keyframes fall {
-      to {
-        transform: translateY(100vh);
-        opacity: 0;
-      }
+    .song-card p {
+      margin: 8px 0 0;
+      font-size: 1rem;
+      color: #777;
+    }
+
+    .arrow {
+      font-size: 2.5rem;
+      color: #fff;
+      cursor: pointer;
+      user-select: none;
+      margin: 0 20px;
+      transition: transform 0.2s ease;
+    }
+
+    .arrow:hover {
+      transform: scale(1.2);
+    }
+
+    .playlist-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 20px;
     }
   </style>
 </head>
 <body>
+  <div class="container">
+    <!-- Question Part -->
+    <div class="question active" id="questionBox">
+      <h1>Para saan nga ba 'to?</h1>
+      <div class="choices">
+        <button onclick="showAnswer()">1. Hindi ko alam</button>
+        <button onclick="showAnswer()">2. Hindi ko parin alam</button>
+      </div>
+    </div>
 
-  <h1>Happy Birthday Hyeriii 🎂</h1>
-
-  <div id="scene1">
-    <p style="font-size: 20px;">Do you know how much I love you?</p>
-    <button onclick="setAnswer('know', 'yes')">Yes</button>
-    <button onclick="setAnswer('know', 'no')">No</button>
-
-    <p style="font-size: 20px; margin-top: 30px;">Do you love me?</p>
-    <button onclick="setAnswer('love', 'yes')">Yes</button>
-    <button onclick="setAnswer('love', 'no')">No</button>
-
-    <div id="response" class="message"></div>
-
-    <br><br>
-    <button onclick="showLetter()">Okay</button>
-  </div>
-
-  <div id="scene2" style="display: none;">
-    <p class="letter">Happy birthday hyeriii 🩷🎉<br><br>
-    I made this just for you. Thank you for existing and being so lovable in your own little ways.</p>
-
-    <!-- Spotify embed -->
-    <iframe style="border-radius:12px; margin-top: 20px;" src="https://open.spotify.com/embed/track/6mINjVkO6jiFT1QbAGz6bh?utm_source=generator" width="100%" height="80" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture" loading="lazy"></iframe>
+    <!-- Playlist Part -->
+    <div class="playlist" id="playlistBox">
+      <h1>🎶 Songs That I Dedicate To You 🎶</h1>
+      <div class="playlist-controls">
+        <div class="arrow" onclick="prevSong()">&#9664;</div>
+        <div class="song-card" id="songCard">
+          <h2>You!</h2>
+          <p>LANY</p>
+        </div>
+        <div class="arrow" onclick="nextSong()">&#9654;</div>
+      </div>
+    </div>
   </div>
 
   <script>
-    let knowAnswer = '';
-    let loveAnswer = '';
+    const songs = [
+      { title: "You!", artist: "LANY" },
+      { title: "Anything 4 U", artist: "LANY" },
+      { title: "ILYSB", artist: "LANY" },
+      { title: "Out of My League", artist: "LANY" },
+      { title: "Pink Skies", artist: "LANY" },
+      { title: "Iraya", artist: "Just Hush" },
+      { title: "Sa'yo", artist: "Silent Sanctuary" },
+      { title: "Kusapiling", artist: "Anthony Meneses" },
+      { title: "Paruparo", artist: "Sugarcane" }
+    ];
 
-    function setAnswer(type, value) {
-      if (type === 'know') {
-        knowAnswer = value;
-      } else if (type === 'love') {
-        loveAnswer = value;
-      }
+    let currentIndex = 0;
+    const songCard = document.getElementById("songCard");
+    const questionBox = document.getElementById("questionBox");
+    const playlistBox = document.getElementById("playlistBox");
 
-      const responseDiv = document.getElementById('response');
-
-      if (type === 'know') {
-        if (value === 'no') {
-          responseDiv.textContent = "If you answered no, please press okay so you'll know how much I love you 💌";
-        } else {
-          responseDiv.textContent = "I'm happy you know how much I love you 🥹 press okay pa rin ha!";
-        }
-      }
-
-      if (type === 'love') {
-        if (value === 'yes') {
-          responseDiv.textContent = "UEHEOEUDHOODJDIW928272YWHSJSJ 💗";
-        } else if (value === 'no') {
-          responseDiv.textContent = "Ay ganon sige okay lang 😭 d sya masakit (joke lang)";
-        }
-      }
+    function updateSong() {
+      songCard.innerHTML = `
+        <h2>${songs[currentIndex].title}</h2>
+        <p>${songs[currentIndex].artist}</p>
+      `;
     }
 
-    function showLetter() {
-      document.getElementById('scene1').style.display = 'none';
-      document.getElementById('scene2').style.display = 'block';
+    function prevSong() {
+      currentIndex = (currentIndex - 1 + songs.length) % songs.length;
+      updateSong();
     }
 
-    // Heart rain effect
-    function createHeart() {
-      const heart = document.createElement("div");
-      heart.classList.add("heart");
-      heart.textContent = "💖";
-      heart.style.left = Math.random() * 100 + "vw";
-      heart.style.animationDuration = 2 + Math.random() * 3 + "s";
-      document.body.appendChild(heart);
-
-      setTimeout(() => {
-        heart.remove();
-      }, 5000);
+    function nextSong() {
+      currentIndex = (currentIndex + 1) % songs.length;
+      updateSong();
     }
 
-    setInterval(createHeart, 300);
+    function showAnswer() {
+      alert("Ay ganon ba... okay fine eto na 💗");
+      questionBox.classList.remove("active");
+      playlistBox.classList.add("active");
+    }
   </script>
-
 </body>
 </html>
