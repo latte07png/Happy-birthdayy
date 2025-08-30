@@ -2,182 +2,169 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Songs That I Dedicate To You</title>
+  <title>For You </title>
   <style>
     body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #ffb6d9, #ffd1f3, #d4e0ff);
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      background: linear-gradient(135deg, #ffb6c1, #ffe6f0, #a5c9ff);
-      font-family: 'Poppins', sans-serif;
-      margin: 0;
-      transition: background 0.8s ease;
     }
-
-    .container {
-      text-align: center;
-      width: 90%;
-      max-width: 700px;
-    }
-
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 20px;
-      color: #fff;
-      text-shadow: 1px 1px 5px rgba(0,0,0,0.2);
-    }
-
-    .question, .playlist {
-      display: none;
-    }
-
-    .question.active {
-      display: block;
-    }
-
-    .playlist.active {
-      display: block;
-    }
-
-    .choices button {
-      display: block;
-      width: 100%;
-      max-width: 400px;
-      margin: 10px auto;
-      padding: 15px;
-      font-size: 1.2rem;
-      border: none;
+    .frame {
+      border: 5px solid pink;
       border-radius: 15px;
-      background: #fff;
-      color: #444;
-      font-weight: bold;
-      cursor: pointer;
-      transition: transform 0.2s ease, background 0.3s ease;
+      padding: 30px;
+      max-width: 600px;
+      width: 90%;
+      background: white;
+      box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
+      text-align: center;
     }
-
-    .choices button:hover {
-      transform: scale(1.05);
-      background: #fce4ec;
+    h1, h2 {
+      color: #ff4f9d;
+      font-size: 1.8rem;
     }
-
-    .playlist {
-      margin-top: 20px;
-    }
-
-    .song-card {
-      width: 350px;
-      height: 160px;
-      background: #fff;
-      border-radius: 20px;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.15);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      transition: transform 0.5s ease;
-      padding: 20px;
-      margin: 0 auto;
-    }
-
-    .song-card h2 {
-      margin: 0;
-      font-size: 1.5rem;
-      color: #333;
-    }
-
-    .song-card p {
-      margin: 8px 0 0;
+    .hidden { display: none; }
+    .question input {
+      padding: 10px;
+      width: 80%;
+      border: 2px solid pink;
+      border-radius: 8px;
+      margin-top: 15px;
       font-size: 1rem;
-      color: #777;
     }
-
-    .arrow {
-      font-size: 2.5rem;
-      color: #fff;
+    .btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 25px;
+      background: #ff4f9d;
+      color: white;
+      font-size: 1.2rem;
+      border-radius: 12px;
+      border: none;
       cursor: pointer;
-      user-select: none;
-      margin: 0 20px;
-      transition: transform 0.2s ease;
+      transition: 0.3s;
     }
-
-    .arrow:hover {
-      transform: scale(1.2);
+    .btn:hover {
+      background: #ff237e;
     }
-
-    .playlist-controls {
+    .playlist {
       display: flex;
       align-items: center;
-      justify-content: center;
-      margin-top: 20px;
+      justify-content: space-between;
+    }
+    .song-card {
+      border: 2px solid pink;
+      border-radius: 12px;
+      padding: 20px;
+      font-size: 1.2rem;
+      width: 80%;
+      margin: auto;
+      background: #fff0f6;
+    }
+    .letter {
+      max-height: 60vh;
+      overflow-y: auto;
+      text-align: left;
+      font-size: 1.2rem;
+      line-height: 1.6;
+      padding: 20px;
+      color: #333;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <!-- Question Part -->
-    <div class="question active" id="questionBox">
-      <h1>Para saan nga ba 'to?</h1>
-      <div class="choices">
-        <button onclick="showAnswer()">1. Hindi ko alam</button>
-        <button onclick="showAnswer()">2. Hindi ko parin alam</button>
-      </div>
-    </div>
 
-    <!-- Playlist Part -->
-    <div class="playlist" id="playlistBox">
-      <h1>🎶 Songs That I Dedicate To You 🎶</h1>
-      <div class="playlist-controls">
-        <div class="arrow" onclick="prevSong()">&#9664;</div>
-        <div class="song-card" id="songCard">
-          <h2>You!</h2>
-          <p>LANY</p>
-        </div>
-        <div class="arrow" onclick="nextSong()">&#9654;</div>
-      </div>
-    </div>
+<div class="frame">
+  <!-- Question -->
+  <div id="question" class="question">
+    <h1>Do you know what this is for?</h1>
+    <input type="text" id="answerInput" placeholder="Type your answer...">
+    <br>
+    <button class="btn" onclick="showPlaylist()">Submit</button>
   </div>
 
-  <script>
-    const songs = [
-      { title: "You!", artist: "LANY" },
-      { title: "Anything 4 U", artist: "LANY" },
-      { title: "ILYSB", artist: "LANY" },
-      { title: "Out of My League", artist: "LANY" },
-      { title: "Pink Skies", artist: "LANY" },
-      { title: "Iraya", artist: "Just Hush" },
-      { title: "Sa'yo", artist: "Silent Sanctuary" },
-      { title: "Kusapiling", artist: "Anthony Meneses" },
-      { title: "Paruparo", artist: "Sugarcane" }
-    ];
+  <!-- Playlist -->
+  <div id="playlist" class="hidden">
+    <h2>Songs that I dedicate to you </h2>
+    <div class="playlist">
+      <button class="btn" onclick="prevSong()">⟨</button>
+      <div id="songCard" class="song-card"></div>
+      <button class="btn" onclick="nextSong()">⟩</button>
+    </div>
+    <button class="btn" onclick="showButton()">Done</button>
+  </div>
 
-    let currentIndex = 0;
-    const songCard = document.getElementById("songCard");
-    const questionBox = document.getElementById("questionBox");
-    const playlistBox = document.getElementById("playlistBox");
+  <!-- Press Me Button -->
+  <div id="pressme" class="hidden">
+    <button class="btn" onclick="showLetter()">Please press me 🤗</button>
+  </div>
 
-    function updateSong() {
-      songCard.innerHTML = `
-        <h2>${songs[currentIndex].title}</h2>
-        <p>${songs[currentIndex].artist}</p>
-      `;
-    }
+  <!-- Letter -->
+  <div id="letter" class="hidden">
+    <div class="letter">
+      <p>Yes para sayo na naman ’to. Wala nanaman kasi akong magawa kaya gagawin ko ulit ’to.</p>
+      <p>Pero hindi lang dahil sa wala akong ginagawa, ginawa ko ’to kasi gusto ko talagang sabihin sayo kung ano yung matagal ko na hindi masabi sayo.</p>
+      <p>Do you even know how you make my whole day brighter just by sending me a message or even a simple “good morning”? Alam mo ba kung gaano ako kasaya kapag nagkakausap tayo? Maybe you don’t, kasi hindi ko naman lagi sinasabi. Pero sana maramdaman mo, sana alam mo that every little thing from you makes me feel light, makes me feel alive.</p>
+      <p>I want you to feel open with me. Please don’t ever think na wala kang karapatan magsabi ng ayaw mo, magreklamo, o magbukas ng kahit anong nararamdaman mo. I never want you to go to sleep with something heavy on your mind, thinking na hindi mo ’yon masabi sa akin. I don’t want you to feel unsettled or alone. Kasi andito lang ako lagi. Kahit ano pa ang sabihin o gawin mo, kahit pa ipush away mo ako minsan, I won’t leave. I can promise you that with all of me.</p>
+      <p>You probably don’t even realize how much I love you. Minsan nga naiisip ko na malamang wala kang idea kasi hindi ako ganon kadalas magsabi. Pero totoo ’yon. You matter to me more than I can ever explain.</p>
+      <p>Yes marami akong tao o kaibigan sa paligid ko, pero kahit itanong mo pa sa kanila, I’ve never given anyone the kind of attention I give to you. Hindi ko rin pinaparamdam sa iba yung mga pinaparamdam ko sayo. You’re different. You’re special. And I really, really hope you know that.</p>
+      <p>I may not be the best at words all the time, but my heart is steady for you. No matter how busy or messy life gets, it’s always you who stands out. It’s always you who makes everything feel lighter, warmer, and worth it.</p>
+      <p>So please, don’t ever doubt me, don’t ever doubt what we have, and most of all don’t ever doubt how much I love you. Because I love you more than anything, and I’m not going anywhere.</p>
+    </div>
+  </div>
+</div>
 
-    function prevSong() {
-      currentIndex = (currentIndex - 1 + songs.length) % songs.length;
-      updateSong();
-    }
+<script>
+  const songs = [
+    { title: "You!", artist: "LANY", link: "https://open.spotify.com/track/..." },
+    { title: "Anything 4 U", artist: "LANY", link: "https://open.spotify.com/track/..." },
+    { title: "ILYSB", artist: "LANY", link: "https://open.spotify.com/track/..." },
+    { title: "Out of My League", artist: "LANY", link: "https://open.spotify.com/track/..." },
+    { title: "Pink Skies", artist: "LANY", link: "https://open.spotify.com/track/..." },
+    { title: "Iraya", artist: "Just Hush", link: "https://open.spotify.com/track/..." },
+    { title: "Sa’yo", artist: "Silent Sanctuary", link: "https://open.spotify.com/track/..." },
+    { title: "Kusapiling", artist: "Anthony Meneses", link: "https://open.spotify.com/track/..." },
+    { title: "Paruparo", artist: "Sugarcane", link: "https://open.spotify.com/track/..." }
+  ];
 
-    function nextSong() {
-      currentIndex = (currentIndex + 1) % songs.length;
-      updateSong();
-    }
+  let currentSong = 0;
 
-    function showAnswer() {
-      alert("Ay ganon ba... okay fine eto na 💗");
-      questionBox.classList.remove("active");
-      playlistBox.classList.add("active");
-    }
-  </script>
+  function showPlaylist() {
+    document.getElementById("question").classList.add("hidden");
+    document.getElementById("playlist").classList.remove("hidden");
+    showSong();
+  }
+
+  function showSong() {
+    const song = songs[currentSong];
+    document.getElementById("songCard").innerHTML =
+      `<strong>${song.title}</strong><br><em>${song.artist}</em><br><a href="${song.link}" target="_blank">Listen</a>`;
+  }
+
+  function prevSong() {
+    currentSong = (currentSong - 1 + songs.length) % songs.length;
+    showSong();
+  }
+
+  function nextSong() {
+    currentSong = (currentSong + 1) % songs.length;
+    showSong();
+  }
+
+  function showButton() {
+    document.getElementById("playlist").classList.add("hidden");
+    document.getElementById("pressme").classList.remove("hidden");
+  }
+
+  function showLetter() {
+    document.getElementById("pressme").classList.add("hidden");
+    document.getElementById("letter").classList.remove("hidden");
+  }
+</script>
+
 </body>
 </html>
